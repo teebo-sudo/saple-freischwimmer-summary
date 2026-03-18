@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gesprächsprotokoll — Saple x Freischwimmer Berlin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8614FF;
+      --primary-light: #B88CFF;
+      --primary-dark: #660FC2;
+      --bg: #0B0B0F;
+      --card: #12121A;
+      --card-hover: #171723;
+      --text: #FFFFFF;
+      --text-muted: #8E8E9E;
+      --border: #242433;
+      --accent: #1B0F2E;
+      --mint: #2EE59D;
+      --amber: #FFB020;
+      --red: #FF3B30;
+      --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 40px 0 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 32px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary-light);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #B88CFF 0%, #8614FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    /* Sections */
+    section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      margin-top: 24px;
+      color: var(--primary-light);
+    }
+
+    p {
+      font-size: 15px;
+      color: #C8C8D4;
+      margin-bottom: 16px;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      background: var(--card-hover);
+    }
+
+    .card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .card-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-value.warn { color: var(--amber); }
+    .card-value.bad { color: var(--red); }
+    .card-value.good { color: var(--mint); }
+
+    .card-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Lists */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: #C8C8D4;
+    }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--primary);
+    }
+
+    /* Highlight box */
+    .highlight {
+      background: linear-gradient(135deg, rgba(134, 20, 255, 0.08), rgba(134, 20, 255, 0.02));
+      border: 1px solid rgba(134, 20, 255, 0.2);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .highlight h3 {
+      margin-top: 0;
+    }
+
+    /* Findings */
+    .finding {
+      background: var(--card);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+
+    .finding-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .finding-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--primary-light);
+      text-decoration: none;
+    }
+
+    /* Download Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s;
+      margin-top: 16px;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .meta { flex-direction: column; gap: 8px; }
+      header { padding: 24px 0; }
+      section { padding: 32px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="public/saple-logo-white.svg" alt="Saple" class="logo">
+      <span class="badge">Gesprächsprotokoll</span>
+      <h1>Erstgespräch mit Freischwimmer Berlin</h1>
+      <p class="subtitle">Zusammenfassung des Vor-Ort-Termins mit Social-Media-Analyse und Handlungsempfehlungen</p>
+      <div class="meta">
+        <div class="meta-item"><span class="meta-dot"></span> März 2026</div>
+        <div class="meta-item"><span class="meta-dot"></span> Vor-Ort-Termin, Berlin</div>
+        <div class="meta-item"><span class="meta-dot"></span> Dauer: ~37 Minuten</div>
+      </div>
+    </header>
+
+    <!-- ZUSAMMENFASSUNG -->
+    <section>
+      <h2>Zusammenfassung</h2>
+      <p>
+        Im Erstgespräch vor Ort im Freischwimmer Berlin haben Philipp und Arne (Saple) die aktuelle Situation
+        des Restaurants analysiert und die Möglichkeiten einer Social-Media-Zusammenarbeit besprochen.
+        Der Freischwimmer ist seit über 20 Jahren eine Berliner Institution mit Wasserlage, hat aber
+        in den letzten Jahren einen spürbaren Rückgang der Restaurant-Gäste erfahren, insbesondere
+        außerhalb der Sommermonate.
+      </p>
+
+      <div class="highlight">
+        <h3>Kernproblem</h3>
+        <p>
+          Der Freischwimmer generiert seine Gäste hauptsächlich über den bestehenden Ruf und analoge
+          Werbung (Plakate). Es gibt keinen systematischen digitalen Kanal zur Kundengewinnung.
+          Die Restaurant-Kundschaft ist seit Corona rückläufig, während der Event-Anteil gestiegen ist.
+          Die Fixkosten (Personal, Küche, Service, Bar, Reinigung) bleiben aber konstant.
+        </p>
+      </div>
+    </section>
+
+    <!-- IST-ZUSTAND -->
+    <section>
+      <h2>Ist-Zustand Freischwimmer</h2>
+
+      <h3>Location & Betrieb</h3>
+      <ul>
+        <li>Etabliertes Restaurant seit über 20 Jahren in Berlin-Kreuzberg am Wasser</li>
+        <li>Urige, warme Atmosphäre mit Charakter, aber versteckte Lage hinter einer Tankstelle</li>
+        <li>Zusätzliches Bootshaus: ca. 100 Personen stehend, 50-60 sitzend</li>
+        <li>Überdachter Steg, bis zu 4 parallele Veranstaltungen möglich</li>
+      </ul>
+
+      <h3>Saisonalität</h3>
+      <ul>
+        <li><strong>Sommer (Mai-Sep):</strong> Lunch + Dinner, Öffnung ab 12 Uhr, gut besucht</li>
+        <li><strong>Herbst (ab Okt):</strong> Nur noch Dinner ab 18 Uhr, rapide sinkende Gästezahlen</li>
+        <li><strong>Winter (ca. 20. Dez - Mitte März):</strong> Geschlossen (Holzheizung / Öfen erfordern Schließung)</li>
+        <li>Einzelne Veranstaltungen (Raves, Weihnachtsfeiern, Kickoffs) in der Winterpause</li>
+      </ul>
+
+      <h3>Herausforderungen</h3>
+      <ul>
+        <li>Restaurant-Gäste deutlich rückläufig seit Corona</li>
+        <li>Früher: Schlange bis zur Tankstelle im Sommer. Jetzt: nicht mehr</li>
+        <li>Gäste geben weniger aus, weniger Trinkgeld</li>
+        <li>Event-Anteil gestiegen, aber Restaurant bleibt Kerngeschäft</li>
+        <li>Fixkosten bleiben konstant auch bei wenigen Gästen</li>
+        <li>Keine bisherige Agentur-Zusammenarbeit oder Social-Media-Strategie</li>
+        <li>Location schwer auffindbar, fehlende Außenwerbung</li>
+      </ul>
+    </section>
+
+    <!-- INSTAGRAM ANALYSE -->
+    <section>
+      <h2>Instagram-Analyse</h2>
+      <p>Philipp hat vorab eine Analyse des bestehenden Instagram-Accounts durchgeführt:</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-label">Follower</div>
+          <div class="card-value">3.259</div>
+          <div class="card-note">Solide Basis vorhanden</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Beiträge</div>
+          <div class="card-value bad">32</div>
+          <div class="card-note">Viel zu wenig Content</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Following</div>
+          <div class="card-value warn">1.210</div>
+          <div class="card-note">Ratio beachten</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Engagement Rate</div>
+          <div class="card-value bad">1,6%</div>
+          <div class="card-note">Deutlich zu niedrig</div>
+        </div>
+      </div>
+
+      <h3>Kernbefunde</h3>
+
+      <div class="finding">
+        <div class="finding-title">Zu wenig Beiträge</div>
+        <div class="finding-desc">32 Beiträge insgesamt sind für einen Account mit 3.000+ Followern viel zu wenig. Es fehlt an regelmäßigem Content.</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-title">Keine Call-to-Actions</div>
+        <div class="finding-desc">In keinem Beitrag gibt es eine Handlungsaufforderung. Kein "Kommentiert", "Teilt das", "Kommt vorbei" oder "Schickt das einem Freund".</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-title">Nur Fotos, keine Reels</div>
+        <div class="finding-desc">Der Account setzt auf statische Fotos. Reels und Video-Content sind aber der Schlüssel zur Reichweite auf Instagram und TikTok.</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-title">Keine Engagement-Hooks</div>
+        <div class="finding-desc">Der Content bietet keinen Anreiz zum Interagieren. Der bisher beste Post war ironischerweise ein Recruiting-Post.</div>
+      </div>
+    </section>
+
+    <!-- EMPFEHLUNGEN -->
+    <section>
+      <h2>Empfehlungen von Saple</h2>
+
+      <h3>Strategie</h3>
+      <ul>
+        <li>Social Media als <strong>Kundenkanal</strong> nutzen, nicht nur als Schaufenster</li>
+        <li>Systematischer Content-Plan mit klarem Ziel: <strong>mehr Gäste im Restaurant</strong></li>
+        <li>Fokus auf Video-Content: <strong>Reels und Stories statt statischer Fotos</strong></li>
+        <li>TikTok-Präsenz aufbauen als zukunftssicherer Kanal</li>
+        <li>Social Media als Suchmaschine verstehen (Standort-Suche, "best food spot Berlin")</li>
+      </ul>
+
+      <h3>Content-Richtung</h3>
+      <ul>
+        <li>Behind-the-Scenes: Küche, Team, Atmosphäre zeigen</li>
+        <li>Die einzigartige Wasserlage und das urige Ambiente hervorheben</li>
+        <li>Hooks einbauen, die zum Teilen und Interagieren anregen</li>
+        <li>Call-to-Actions in jedem Beitrag (z.B. "Schick das einem Freund, der das sehen muss")</li>
+        <li>Persönlichkeit & Markenbotschaft aufbauen (Beispiel: Redo XXL als Vorbild)</li>
+      </ul>
+
+      <h3>Quick Wins</h3>
+      <ul>
+        <li>Engagement-Rate steigern durch interaktive Stories (Umfragen, Quizze)</li>
+        <li>Referral-Aktionen testen (z.B. "Zeigt diesen Post und erhaltet 5 EUR Rabatt")</li>
+        <li>Reels mit Behind-the-Scenes Content aus der Küche starten</li>
+        <li>Standort-basierte Hashtags und Geotagging für lokale Auffindbarkeit</li>
+      </ul>
+    </section>
+
+    <!-- WARUM SAPLE -->
+    <section>
+      <h2>Warum Saple?</h2>
+      <ul>
+        <li><strong>Spezialisiert auf Gastronomie:</strong> Saple arbeitet ausschließlich mit Gastronomiebetrieben</li>
+        <li><strong>Erfahrung:</strong> 6-7 Jahre Marketingerfahrung in verschiedenen Unternehmen, Ausbildung als Mediengestalter</li>
+        <li><strong>Persönlicher Bezug:</strong> Philipps eigene Gastrofamilie musste während Corona zwei Betriebe schließen &mdash; mangels digitaler Präsenz</li>
+        <li><strong>Referenzprojekt:</strong> Aktuelles Kundenprojekt im Volkspark Friedrichshain mit ähnlicher Saisonalitäts-Problematik</li>
+        <li><strong>System statt Schönheit:</strong> Der Fokus liegt auf messbarer Gästegewinnung, nicht auf hübschen Fotos</li>
+      </ul>
+    </section>
+
+    <!-- NÄCHSTE SCHRITTE -->
+    <section>
+      <h2>Nächste Schritte</h2>
+      <div class="highlight">
+        <ul>
+          <li>Angebot und Leistungspaket an die Ansprechpartnerin zur Weiterleitung an die Geschäftsführung senden</li>
+          <li>Content-Drehtag vor Ort vereinbaren (ideal: während des laufenden Betriebs)</li>
+          <li>TikTok-Account anlegen und einrichten</li>
+          <li>Redaktionsplan für die ersten 4 Wochen erstellen</li>
+          <li>Instagram-Profil optimieren (Bio, Highlights, CTA)</li>
+        </ul>
+      </div>
+
+      <a href="transkript.txt" class="btn" download>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Vollständiges Transkript herunterladen
+      </a>
+    </section>
+
+    <footer>
+      <p>Erstellt von <a href="#">Saple</a> &mdash; Social Media für Gastronomie</p>
+      <p style="margin-top: 8px;">Kontakt: Philipp & Arne &mdash; Saple Media</p>
+    </footer>
+  </div>
+</body>
+</html>
