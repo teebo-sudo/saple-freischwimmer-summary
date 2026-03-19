@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,23 +8,51 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #8614FF;
-      --primary-light: #B88CFF;
-      --primary-dark: #660FC2;
-      --bg: #0B0B0F;
-      --card: #12121A;
-      --card-hover: #171723;
-      --text: #FFFFFF;
+    /* =========================================
+       THEME VARIABLES
+       ========================================= */
+    [data-theme="light"] {
+      --bg: #FFFFFF;
+      --surface: #F5F5F7;
+      --surface-light: #EBEBEF;
+      --text: #0B0B0F;
+      --text-secondary: #6B6B78;
       --text-muted: #8E8E9E;
-      --border: #242433;
-      --accent: #1B0F2E;
-      --mint: #2EE59D;
-      --amber: #FFB020;
-      --red: #FF3B30;
-      --radius: 12px;
+      --border: #D9D9E0;
+      --border-card: rgba(0,0,0,0.06);
+      --border-card-strong: rgba(0,0,0,0.04);
+      --nav-bg: rgba(255,255,255,0.85);
+      --nav-border: rgba(11,11,15,0.15);
+      --footer-border: rgba(0,0,0,0.06);
     }
 
+    :root, [data-theme="dark"] {
+      --bg: #0B0B0F;
+      --surface: #12121A;
+      --surface-light: #1D1D2B;
+      --text: #FFFFFF;
+      --text-secondary: #B9B9C6;
+      --text-muted: #8E8E9E;
+      --border: #242433;
+      --border-card: rgba(255,255,255,0.06);
+      --border-card-strong: rgba(255,255,255,0.04);
+      --nav-bg: rgba(11,11,15,0.85);
+      --nav-border: rgba(255,255,255,0.15);
+      --footer-border: rgba(255,255,255,0.06);
+      --primary: #8614FF;
+      --primary-light: #AD5FFF;
+      --primary-dark: #660FC2;
+      --mint: #2EE59D;
+      --dark: #0B0B0F;
+      --red: #FF3B30;
+      --amber: #FFB020;
+      --green: #2EE59D;
+      --blue: #2D7DFF;
+    }
+
+    /* =========================================
+       RESET & BASE
+       ========================================= */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -33,6 +61,7 @@
       color: var(--text);
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
 
     .container {
@@ -41,433 +70,1061 @@
       padding: 0 24px;
     }
 
-    /* Header */
-    header {
-      padding: 40px 0 32px;
-      border-bottom: 1px solid var(--border);
-    }
+    a { color: inherit; text-decoration: none; }
 
-    .logo {
-      width: 120px;
-      margin-bottom: 32px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--primary-light);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 16px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    h1 {
+    .slush-text {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(28px, 5vw, 42px);
       font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 12px;
-      background: linear-gradient(90deg, #B88CFF 0%, #8614FF 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 0.85;
     }
 
-    .subtitle {
-      font-size: 16px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .meta {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .meta-item {
+    /* =========================================
+       FLOATING NAV
+       ========================================= */
+    .nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--nav-border);
+      border-radius: 100px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 16px;
+      transition: background 0.3s, border-color 0.3s;
     }
 
-    .meta-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+    .nav-logo {
+      height: 22px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo img {
+      height: 22px;
+    }
+
+    .nav-logo .logo-dark { display: none; }
+    .nav-logo .logo-light { display: block; }
+
+    [data-theme="light"] .nav-logo .logo-dark { display: block; }
+    [data-theme="light"] .nav-logo .logo-light { display: none; }
+
+    .nav-cta {
       background: var(--primary);
-    }
-
-    /* Sections */
-    section {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    section:last-of-type {
-      border-bottom: none;
-    }
-
-    h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px;
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 13px;
       font-weight: 600;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-light);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--surface);
+    }
+
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+
+    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 20px;
+      width: 36px;
+      height: 36px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .hamburger:hover {
+      background: var(--surface);
+    }
+
+    @media (max-width: 640px) {
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .nav.open .nav-cta {
+        display: block;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        padding: 10px 24px;
+        border-radius: 100px;
+        box-shadow: 0 8px 32px rgba(134,20,255,0.3);
+      }
+    }
+
+    /* =========================================
+       HERO
+       ========================================= */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 24px 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(134,20,255,0.25) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
       margin-bottom: 24px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 550px;
+      margin: 0 auto 20px;
+      line-height: 1.6;
+    }
+
+    .hero-title {
+      font-size: clamp(52px, 10vw, 96px);
+      margin-bottom: 16px;
       color: var(--text);
     }
 
-    h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      margin-top: 24px;
+    .hero-handle {
+      display: inline-block;
       color: var(--primary-light);
-    }
-
-    p {
       font-size: 15px;
-      color: #C8C8D4;
+      font-weight: 500;
       margin-bottom: 16px;
+      transition: color 0.2s;
     }
 
-    /* Cards */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
+    .hero-handle:hover {
+      color: var(--primary);
     }
 
-    .card {
-      background: var(--card);
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .hero-tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .hero-tag {
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      transition: border-color 0.3s, background 0.3s;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
     }
 
-    .card:hover {
-      border-color: var(--primary);
-      background: var(--card-hover);
-    }
-
-    .card-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .hero-meta {
+      font-size: 12px;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta a {
+      color: var(--primary-light);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .hero-meta a:hover {
+      color: var(--primary);
+    }
+
+    /* =========================================
+       DIVIDER
+       ========================================= */
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      margin: 0;
+      opacity: 0.4;
+    }
+
+    /* =========================================
+       SECTIONS
+       ========================================= */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mint);
+      letter-spacing: 0.05em;
       margin-bottom: 8px;
     }
 
-    .card-value {
+    .section-title {
+      font-size: clamp(28px, 5vw, 40px);
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .section-sub {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    /* =========================================
+       STATS GRID
+       ========================================= */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border);
+    }
+
+    .stat-value {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 28px;
       font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-value.green { color: var(--green); }
+    .stat-value.amber { color: var(--amber); }
+    .stat-value.red { color: var(--red); }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .stat-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================
+       SCORE BARS
+       ========================================= */
+    .scores {
+      margin-bottom: 48px;
+    }
+
+    .scores h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
       color: var(--text);
     }
 
-    .card-value.warn { color: var(--amber); }
-    .card-value.bad { color: var(--red); }
-    .card-value.good { color: var(--mint); }
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
 
-    .card-note {
+    .score-label {
       font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 4px;
+      color: var(--text-secondary);
+      min-width: 200px;
+      flex-shrink: 0;
     }
 
-    /* Lists */
-    ul {
-      list-style: none;
-      padding: 0;
+    .score-track {
+      flex: 1;
+      height: 8px;
+      background: var(--surface-light);
+      border-radius: 100px;
+      overflow: hidden;
     }
 
-    ul li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 12px;
+    .score-fill {
+      height: 100%;
+      border-radius: 100px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .score-fill.green { background: var(--green); }
+    .score-fill.amber { background: var(--amber); }
+    .score-fill.red { background: var(--red); }
+
+    .score-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      min-width: 40px;
+      text-align: right;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 640px) {
+      .score-row { flex-wrap: wrap; gap: 6px; }
+      .score-label { min-width: 100%; }
+    }
+
+    /* =========================================
+       INSIGHT BOX
+       ========================================= */
+    .insight-box {
+      background: var(--surface);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 28px 32px;
+      border-left: 4px solid var(--red);
+      margin-bottom: 48px;
+    }
+
+    .insight-box.amber-border { border-left-color: var(--amber); }
+    .insight-box.green-border { border-left-color: var(--green); }
+    .insight-box.red-border { border-left-color: var(--red); }
+
+    .insight-box h4 {
       font-size: 15px;
-      color: #C8C8D4;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
     }
 
-    ul li::before {
+    .insight-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* =========================================
+       PROBLEM CARDS
+       ========================================= */
+    .problems {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .problem-card {
+      background: var(--surface);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      gap: 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .problem-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border);
+    }
+
+    .problem-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--surface-light);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    [data-theme="light"] .problem-num {
+      color: var(--surface-light);
+    }
+
+    .problem-content {
+      flex: 1;
+    }
+
+    .problem-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .problem-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .impact-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .impact-badge.high {
+      background: rgba(255,59,48,0.15);
+      color: var(--red);
+    }
+
+    .impact-badge.medium {
+      background: rgba(255,176,32,0.15);
+      color: var(--amber);
+    }
+
+    .problem-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 640px) {
+      .problem-card { flex-direction: column; gap: 12px; }
+    }
+
+    /* =========================================
+       FIX CATEGORIES
+       ========================================= */
+    .fix-category {
+      margin-bottom: 40px;
+    }
+
+    .fix-category-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .fix-category-title::before {
       content: '';
-      position: absolute;
-      left: 0;
-      top: 9px;
       width: 8px;
       height: 8px;
-      border-radius: 2px;
-      background: var(--primary);
+      background: var(--mint);
+      border-radius: 50%;
+      flex-shrink: 0;
     }
 
-    /* Highlight box */
-    .highlight {
-      background: linear-gradient(135deg, rgba(134, 20, 255, 0.08), rgba(134, 20, 255, 0.02));
-      border: 1px solid rgba(134, 20, 255, 0.2);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin: 24px 0;
+    .fix-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .highlight h3 {
-      margin-top: 0;
+    .fix-item {
+      background: var(--surface);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px 28px;
+      transition: transform 0.2s, border-color 0.2s;
     }
 
-    /* Findings */
-    .finding {
-      background: var(--card);
-      border-left: 3px solid var(--primary);
-      border-radius: 0 var(--radius) var(--radius) 0;
-      padding: 20px 24px;
-      margin-bottom: 16px;
+    .fix-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--border);
     }
 
-    .finding-title {
+    .fix-item h4 {
+      font-size: 14px;
       font-weight: 600;
-      font-size: 15px;
+      color: var(--text);
       margin-bottom: 6px;
     }
 
-    .finding-desc {
-      font-size: 14px;
-      color: var(--text-muted);
+    .fix-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
     }
 
-    /* Footer */
-    footer {
+    /* =========================================
+       RESULT BOX
+       ========================================= */
+    .result-box {
+      border: 2px solid var(--primary);
+      border-radius: 16px;
+      padding: 32px 36px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 48px;
+      background: var(--surface);
+    }
+
+    .result-box p {
+      font-size: 16px;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    /* =========================================
+       CTA SECTION
+       ========================================= */
+    .cta-section {
+      background: var(--mint);
+      border-radius: 20px;
+      padding: 56px 40px;
+      text-align: center;
+      margin: 48px 0;
+    }
+
+    .cta-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .cta-section p {
+      font-size: 15px;
+      color: var(--dark);
+      opacity: 0.7;
+      margin-bottom: 28px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--dark);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .cta-btn:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    /* =========================================
+       FOOTER
+       ========================================= */
+    .footer {
+      border-top: 1px solid var(--footer-border);
       padding: 40px 0;
       text-align: center;
+    }
+
+    .footer-logo {
+      height: 24px;
+      margin-bottom: 12px;
+    }
+
+    .footer-logo .logo-dark { display: none; }
+    .footer-logo .logo-light { display: block; margin: 0 auto; }
+
+    [data-theme="light"] .footer-logo .logo-dark { display: block; margin: 0 auto; }
+    [data-theme="light"] .footer-logo .logo-light { display: none; }
+
+    .footer-logo img {
+      height: 24px;
+    }
+
+    .footer-note {
+      font-size: 12px;
       color: var(--text-muted);
-      font-size: 13px;
     }
 
-    footer a {
-      color: var(--primary-light);
-      text-decoration: none;
+    /* =========================================
+       FADE ANIMATIONS
+       ========================================= */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
-    /* Download Button */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--primary);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      transition: background 0.2s;
-      margin-top: 16px;
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .btn:hover {
-      background: var(--primary-dark);
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+    @media (max-width: 768px) {
+      .section { padding: 60px 0; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-title { font-size: clamp(40px, 9vw, 72px); }
+      .cta-section { padding: 40px 24px; }
+      .result-box { padding: 24px 20px; }
+      .insight-box { padding: 20px 24px; }
+      .problem-card { padding: 20px 24px; }
+      .fix-item { padding: 20px 24px; }
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      .card-grid { grid-template-columns: 1fr; }
-      .meta { flex-direction: column; gap: 8px; }
-      header { padding: 24px 0; }
-      section { padding: 32px 0; }
+    @media (max-width: 480px) {
+      .nav { padding: 8px 14px; gap: 10px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="public/saple-logo-white.svg" alt="Saple" class="logo">
-      <span class="badge">Gesprächsprotokoll</span>
-      <h1>Erstgespräch mit Freischwimmer Berlin</h1>
-      <p class="subtitle">Zusammenfassung des Vor-Ort-Termins mit Social-Media-Analyse und Handlungsempfehlungen</p>
-      <div class="meta">
-        <div class="meta-item"><span class="meta-dot"></span> März 2026</div>
-        <div class="meta-item"><span class="meta-dot"></span> Vor-Ort-Termin, Berlin</div>
-        <div class="meta-item"><span class="meta-dot"></span> Dauer: ~37 Minuten</div>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo">
+      <img src="public/saple-logo-white.svg" alt="Saple" class="logo-light">
+      <img src="public/saple-logo-black.svg" alt="Saple" class="logo-dark">
+    </div>
+    <a href="https://saple.de" class="nav-cta" target="_blank">Kostenloses Erstgespr&auml;ch</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">
+      <span class="icon-sun">&#9728;&#65039;</span>
+      <span class="icon-moon">&#9789;&#65039;</span>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Men&uuml;">
+      &#9776;
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge fade-up">GESPR&Auml;CHSPROTOKOLL // ERSTTERMIN</div>
+      <p class="hero-subtitle fade-up">Zusammenfassung des Vor-Ort-Termins mit Social-Media-Analyse und Handlungsempfehlungen.</p>
+      <h1 class="hero-title slush-text fade-up">FREISCHWIMMER BERLIN</h1>
+      <a href="https://www.instagram.com/restaurant_freischwimmer/" target="_blank" class="hero-handle fade-up">@restaurant_freischwimmer</a>
+      <p class="hero-desc fade-up">Restaurant &amp; Bar in Berlin-Kreuzberg // Vor dem Schlesischen Tor 2a, direkt an der Spree</p>
+      <div class="hero-tags fade-up">
+        <span class="hero-tag">Erstgespr&auml;ch</span>
+        <span class="hero-tag">M&auml;rz 2026</span>
+        <span class="hero-tag">Berlin</span>
       </div>
-    </header>
-
-    <!-- ZUSAMMENFASSUNG -->
-    <section>
-      <h2>Zusammenfassung</h2>
-      <p>
-        Im Erstgespräch vor Ort im Freischwimmer Berlin haben Philipp und Arne (Saple) die aktuelle Situation
-        des Restaurants analysiert und die Möglichkeiten einer Social-Media-Zusammenarbeit besprochen.
-        Der Freischwimmer ist seit über 20 Jahren eine Berliner Institution mit Wasserlage, hat aber
-        in den letzten Jahren einen spürbaren Rückgang der Restaurant-Gäste erfahren, insbesondere
-        außerhalb der Sommermonate.
-      </p>
-
-      <div class="highlight">
-        <h3>Kernproblem</h3>
-        <p>
-          Der Freischwimmer generiert seine Gäste hauptsächlich über den bestehenden Ruf und analoge
-          Werbung (Plakate). Es gibt keinen systematischen digitalen Kanal zur Kundengewinnung.
-          Die Restaurant-Kundschaft ist seit Corona rückläufig, während der Event-Anteil gestiegen ist.
-          Die Fixkosten (Personal, Küche, Service, Bar, Reinigung) bleiben aber konstant.
-        </p>
+      <div class="hero-meta fade-up">
+        <span>Erstellt von Saple | Vertraulich</span>
+        <a href="transkript.txt" download>Transkript herunterladen</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- IST-ZUSTAND -->
-    <section>
-      <h2>Ist-Zustand Freischwimmer</h2>
+  <div class="divider"></div>
 
-      <h3>Location & Betrieb</h3>
-      <ul>
-        <li>Etabliertes Restaurant seit über 20 Jahren in Berlin-Kreuzberg am Wasser</li>
-        <li>Urige, warme Atmosphäre mit Charakter, aber versteckte Lage hinter einer Tankstelle</li>
-        <li>Zusätzliches Bootshaus: ca. 100 Personen stehend, 50-60 sitzend</li>
-        <li>Überdachter Steg, bis zu 4 parallele Veranstaltungen möglich</li>
-      </ul>
+  <!-- SECTION 01 — ACCOUNT SNAPSHOT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-num">01</div>
+        <h2 class="section-title slush-text">ACCOUNT SNAPSHOT</h2>
+        <p class="section-sub">Aktuelle Kennzahlen und Bewertung des Instagram-Profils</p>
+      </div>
 
-      <h3>Saisonalität</h3>
-      <ul>
-        <li><strong>Sommer (Mai-Sep):</strong> Lunch + Dinner, Öffnung ab 12 Uhr, gut besucht</li>
-        <li><strong>Herbst (ab Okt):</strong> Nur noch Dinner ab 18 Uhr, rapide sinkende Gästezahlen</li>
-        <li><strong>Winter (ca. 20. Dez - Mitte März):</strong> Geschlossen (Holzheizung / Öfen erfordern Schließung)</li>
-        <li>Einzelne Veranstaltungen (Raves, Weihnachtsfeiern, Kickoffs) in der Winterpause</li>
-      </ul>
-
-      <h3>Herausforderungen</h3>
-      <ul>
-        <li>Restaurant-Gäste deutlich rückläufig seit Corona</li>
-        <li>Früher: Schlange bis zur Tankstelle im Sommer. Jetzt: nicht mehr</li>
-        <li>Gäste geben weniger aus, weniger Trinkgeld</li>
-        <li>Event-Anteil gestiegen, aber Restaurant bleibt Kerngeschäft</li>
-        <li>Fixkosten bleiben konstant auch bei wenigen Gästen</li>
-        <li>Keine bisherige Agentur-Zusammenarbeit oder Social-Media-Strategie</li>
-        <li>Location schwer auffindbar, fehlende Außenwerbung</li>
-      </ul>
-    </section>
-
-    <!-- INSTAGRAM ANALYSE -->
-    <section>
-      <h2>Instagram-Analyse</h2>
-      <p>Philipp hat vorab eine Analyse des bestehenden Instagram-Accounts durchgeführt:</p>
-
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-label">Follower</div>
-          <div class="card-value">3.259</div>
-          <div class="card-note">Solide Basis vorhanden</div>
+      <div class="stats-grid fade-up">
+        <div class="stat-card">
+          <div class="stat-value amber">3.259</div>
+          <div class="stat-label">Follower</div>
+          <div class="stat-note">Underperforming</div>
         </div>
-        <div class="card">
-          <div class="card-label">Beiträge</div>
-          <div class="card-value bad">32</div>
-          <div class="card-note">Viel zu wenig Content</div>
+        <div class="stat-card">
+          <div class="stat-value amber">1.210</div>
+          <div class="stat-label">Following</div>
+          <div class="stat-note">Ratio beachten</div>
         </div>
-        <div class="card">
-          <div class="card-label">Following</div>
-          <div class="card-value warn">1.210</div>
-          <div class="card-note">Ratio beachten</div>
+        <div class="stat-card">
+          <div class="stat-value red">32</div>
+          <div class="stat-label">Beitr&auml;ge</div>
+          <div class="stat-note">Viel zu wenig</div>
         </div>
-        <div class="card">
-          <div class="card-label">Engagement Rate</div>
-          <div class="card-value bad">1,6%</div>
-          <div class="card-note">Deutlich zu niedrig</div>
+        <div class="stat-card">
+          <div class="stat-value red">~1.6%</div>
+          <div class="stat-label">Engagement</div>
+          <div class="stat-note">Weit unter Benchmark</div>
         </div>
       </div>
 
-      <h3>Kernbefunde</h3>
-
-      <div class="finding">
-        <div class="finding-title">Zu wenig Beiträge</div>
-        <div class="finding-desc">32 Beiträge insgesamt sind für einen Account mit 3.000+ Followern viel zu wenig. Es fehlt an regelmäßigem Content.</div>
+      <div class="scores fade-up">
+        <h3>Detailbewertung</h3>
+        <div class="score-row">
+          <span class="score-label">Profil-Optimierung</span>
+          <div class="score-track"><div class="score-fill amber" data-width="40%"></div></div>
+          <span class="score-val">4/10</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Content-Qualit&auml;t</span>
+          <div class="score-track"><div class="score-fill amber" data-width="50%"></div></div>
+          <span class="score-val">5/10</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Reels-Strategie</span>
+          <div class="score-track"><div class="score-fill red" data-width="20%"></div></div>
+          <span class="score-val">2/10</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Community-Building</span>
+          <div class="score-track"><div class="score-fill red" data-width="20%"></div></div>
+          <span class="score-val">2/10</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Conversion-Optimierung</span>
+          <div class="score-track"><div class="score-fill red" data-width="30%"></div></div>
+          <span class="score-val">3/10</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Lokale Sichtbarkeit</span>
+          <div class="score-track"><div class="score-fill amber" data-width="40%"></div></div>
+          <span class="score-val">4/10</span>
+        </div>
       </div>
 
-      <div class="finding">
-        <div class="finding-title">Keine Call-to-Actions</div>
-        <div class="finding-desc">In keinem Beitrag gibt es eine Handlungsaufforderung. Kein "Kommentiert", "Teilt das", "Kommt vorbei" oder "Schickt das einem Freund".</div>
+      <div class="insight-box red-border fade-up">
+        <h4>Kritisches Signal: Atmosph&auml;re-Content schl&auml;gt Branded Graphics</h4>
+        <p>Euer Interior-Reel mit dem Kronleuchter an der Spree hat 12.600 Views erreicht &mdash; 5x mehr als euer Durchschnitt. Atmosph&auml;re-Content performt massiv besser als Branded Graphics.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 02 — SITUATION & HERAUSFORDERUNGEN -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-num">02</div>
+        <h2 class="section-title slush-text">SITUATION &amp; HERAUSFORDERUNGEN</h2>
+        <p class="section-sub">Identifizierte Probleme und Herausforderungen</p>
       </div>
 
-      <div class="finding">
-        <div class="finding-title">Nur Fotos, keine Reels</div>
-        <div class="finding-desc">Der Account setzt auf statische Fotos. Reels und Video-Content sind aber der Schlüssel zur Reichweite auf Instagram und TikTok.</div>
+      <div class="problems">
+        <div class="problem-card fade-up">
+          <div class="problem-num">01</div>
+          <div class="problem-content">
+            <div class="problem-header">
+              <span class="problem-title">Restaurant-G&auml;ste r&uuml;ckl&auml;ufig seit Corona</span>
+              <span class="impact-badge high">High Impact</span>
+            </div>
+            <p class="problem-desc">Fr&uuml;her Schlange bis zur Tankstelle im Sommer. Die Leute geben weniger aus, lassen weniger Geld im Restaurant, geben weniger Trinkgeld. Fixkosten (Personal, K&uuml;che, Service, Bar, Reinigung) bleiben konstant.</p>
+          </div>
+        </div>
+
+        <div class="problem-card fade-up">
+          <div class="problem-num">02</div>
+          <div class="problem-content">
+            <div class="problem-header">
+              <span class="problem-title">Keine Social-Media-Strategie vorhanden</span>
+              <span class="impact-badge high">High Impact</span>
+            </div>
+            <p class="problem-desc">Bisher nur analoge Werbung &uuml;ber Plakate eines Gesellschafters. Social Media wurde nur sporadisch versucht (Fotos der Speisekarte). Kein systematischer Ansatz.</p>
+          </div>
+        </div>
+
+        <div class="problem-card fade-up">
+          <div class="problem-num">03</div>
+          <div class="problem-content">
+            <div class="problem-header">
+              <span class="problem-title">Versteckte Location, keine digitale Auffindbarkeit</span>
+              <span class="impact-badge high">High Impact</span>
+            </div>
+            <p class="problem-desc">Der Freischwimmer ist hinter einer Tankstelle versteckt. Selbst Berliner kennen die Location nicht. Fehlende Au&szlig;enwerbung und keine Social-Media-Pr&auml;senz kompensieren das.</p>
+          </div>
+        </div>
+
+        <div class="problem-card fade-up">
+          <div class="problem-num">04</div>
+          <div class="problem-content">
+            <div class="problem-header">
+              <span class="problem-title">3 Monate Winterschlie&szlig;ung ohne Content-Strategie</span>
+              <span class="impact-badge medium">Medium Impact</span>
+            </div>
+            <p class="problem-desc">Schlie&szlig;ung von ca. 20. Dezember bis Mitte M&auml;rz. Keine Countdown-Posts, kein Behind-the-Scenes, keine Throwbacks. 3 Monate Stille = massiver Algorithmus-Verlust.</p>
+          </div>
+        </div>
+
+        <div class="problem-card fade-up">
+          <div class="problem-num">05</div>
+          <div class="problem-content">
+            <div class="problem-header">
+              <span class="problem-title">Event-Anteil steigt, Restaurant-Kern leidet</span>
+              <span class="impact-badge medium">Medium Impact</span>
+            </div>
+            <p class="problem-desc">Veranstaltungen (Weihnachtsfeiern, Raves, Kickoffs) nehmen zu, bringen aber nur Bar-Umsatz. Das Restaurant soll Kerngesch&auml;ft bleiben. Balance fehlt.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="finding">
-        <div class="finding-title">Keine Engagement-Hooks</div>
-        <div class="finding-desc">Der Content bietet keinen Anreiz zum Interagieren. Der bisher beste Post war ironischerweise ein Recruiting-Post.</div>
+      <div class="result-box fade-up">
+        <p>Der Freischwimmer hat eine der besten Locations Berlins &mdash; direkt an der Spree, seit &uuml;ber 20 Jahren etabliert. Dieses Potenzial wird digital zu weniger als 10% ausgesch&ouml;pft.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- EMPFEHLUNGEN -->
-    <section>
-      <h2>Empfehlungen von Saple</h2>
+  <div class="divider"></div>
 
-      <h3>Strategie</h3>
-      <ul>
-        <li>Social Media als <strong>Kundenkanal</strong> nutzen, nicht nur als Schaufenster</li>
-        <li>Systematischer Content-Plan mit klarem Ziel: <strong>mehr Gäste im Restaurant</strong></li>
-        <li>Fokus auf Video-Content: <strong>Reels und Stories statt statischer Fotos</strong></li>
-        <li>TikTok-Präsenz aufbauen als zukunftssicherer Kanal</li>
-        <li>Social Media als Suchmaschine verstehen (Standort-Suche, "best food spot Berlin")</li>
-      </ul>
-
-      <h3>Content-Richtung</h3>
-      <ul>
-        <li>Behind-the-Scenes: Küche, Team, Atmosphäre zeigen</li>
-        <li>Die einzigartige Wasserlage und das urige Ambiente hervorheben</li>
-        <li>Hooks einbauen, die zum Teilen und Interagieren anregen</li>
-        <li>Call-to-Actions in jedem Beitrag (z.B. "Schick das einem Freund, der das sehen muss")</li>
-        <li>Persönlichkeit & Markenbotschaft aufbauen (Beispiel: Redo XXL als Vorbild)</li>
-      </ul>
-
-      <h3>Quick Wins</h3>
-      <ul>
-        <li>Engagement-Rate steigern durch interaktive Stories (Umfragen, Quizze)</li>
-        <li>Referral-Aktionen testen (z.B. "Zeigt diesen Post und erhaltet 5 EUR Rabatt")</li>
-        <li>Reels mit Behind-the-Scenes Content aus der Küche starten</li>
-        <li>Standort-basierte Hashtags und Geotagging für lokale Auffindbarkeit</li>
-      </ul>
-    </section>
-
-    <!-- WARUM SAPLE -->
-    <section>
-      <h2>Warum Saple?</h2>
-      <ul>
-        <li><strong>Spezialisiert auf Gastronomie:</strong> Saple arbeitet ausschließlich mit Gastronomiebetrieben</li>
-        <li><strong>Erfahrung:</strong> 6-7 Jahre Marketingerfahrung in verschiedenen Unternehmen, Ausbildung als Mediengestalter</li>
-        <li><strong>Persönlicher Bezug:</strong> Philipps eigene Gastrofamilie musste während Corona zwei Betriebe schließen &mdash; mangels digitaler Präsenz</li>
-        <li><strong>Referenzprojekt:</strong> Aktuelles Kundenprojekt im Volkspark Friedrichshain mit ähnlicher Saisonalitäts-Problematik</li>
-        <li><strong>System statt Schönheit:</strong> Der Fokus liegt auf messbarer Gästegewinnung, nicht auf hübschen Fotos</li>
-      </ul>
-    </section>
-
-    <!-- NÄCHSTE SCHRITTE -->
-    <section>
-      <h2>Nächste Schritte</h2>
-      <div class="highlight">
-        <ul>
-          <li>Angebot und Leistungspaket an die Ansprechpartnerin zur Weiterleitung an die Geschäftsführung senden</li>
-          <li>Content-Drehtag vor Ort vereinbaren (ideal: während des laufenden Betriebs)</li>
-          <li>TikTok-Account anlegen und einrichten</li>
-          <li>Redaktionsplan für die ersten 4 Wochen erstellen</li>
-          <li>Instagram-Profil optimieren (Bio, Highlights, CTA)</li>
-        </ul>
+  <!-- SECTION 03 — EMPFEHLUNGEN & NEXT STEPS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-num">03</div>
+        <h2 class="section-title slush-text">EMPFEHLUNGEN &amp; NEXT STEPS</h2>
+        <p class="section-sub">Konkrete Ma&szlig;nahmen und n&auml;chste Schritte</p>
       </div>
 
-      <a href="transkript.txt" class="btn" download>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Vollständiges Transkript herunterladen
-      </a>
-    </section>
+      <!-- Content-Strategie -->
+      <div class="fix-category fade-up">
+        <div class="fix-category-title">Content-Strategie</div>
+        <div class="fix-items">
+          <div class="fix-item">
+            <h4>Umstellung auf Video-Content (Reels &amp; Stories)</h4>
+            <p>Fotos funktionieren nicht mehr. Reels sind der Schl&uuml;ssel zur Reichweite. Mindestens 3 Reels pro Woche mit Hooks, die zum Teilen anregen.</p>
+          </div>
+          <div class="fix-item">
+            <h4>TikTok-Pr&auml;senz aufbauen</h4>
+            <p>TikTok hat doppelt so viele Impressionen wie Instagram. Jedes Restaurant sollte auf TikTok pr&auml;sent sein. Gastro-Content ist auf TikTok extrem beliebt.</p>
+          </div>
+          <div class="fix-item">
+            <h4>Social Media als Suchmaschine verstehen</h4>
+            <p>Nutzer suchen Standort + Essen auf Instagram/TikTok. Bei &laquo;best food spot Berlin&raquo; gelistet werden = 100.000+ Reichweite.</p>
+          </div>
+        </div>
+      </div>
 
-    <footer>
-      <p>Erstellt von <a href="#">Saple</a> &mdash; Social Media für Gastronomie</p>
-      <p style="margin-top: 8px;">Kontakt: Philipp & Arne &mdash; Saple Media</p>
-    </footer>
-  </div>
+      <!-- Profil-Optimierung -->
+      <div class="fix-category fade-up">
+        <div class="fix-category-title">Profil-Optimierung</div>
+        <div class="fix-items">
+          <div class="fix-item">
+            <h4>Call-to-Actions in jedem Beitrag</h4>
+            <p>Kein Post ohne Handlungsaufforderung: &laquo;Kommt vorbei&raquo;, &laquo;Schickt das einem Freund&raquo;, &laquo;Markiert jemanden&raquo;. Engagement-Rate von 1.6% muss deutlich steigen.</p>
+          </div>
+          <div class="fix-item">
+            <h4>Bio und Highlights &uuml;berarbeiten</h4>
+            <p>Klare deutsche Bio mit USP und Reservierungslink. Aktuelle Highlights f&uuml;r Dinner, Events, Brunch, Terrasse, Reviews.</p>
+          </div>
+          <div class="fix-item">
+            <h4>Recruiting-Posts aus dem Feed entfernen</h4>
+            <p>Job-Posts vertreiben potenzielle G&auml;ste. Stellenanzeigen geh&ouml;ren in Stories oder auf LinkedIn.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Markenbotschaft & Positionierung -->
+      <div class="fix-category fade-up">
+        <div class="fix-category-title">Markenbotschaft &amp; Positionierung</div>
+        <div class="fix-items">
+          <div class="fix-item">
+            <h4>Wasserlage und uriges Ambiente als USP nutzen</h4>
+            <p>Die Location direkt an der Spree ist das st&auml;rkste Asset. Das muss in jedem Content-St&uuml;ck sichtbar sein. Sonnenunterg&auml;nge, Spree-Momente, Terrasse.</p>
+          </div>
+          <div class="fix-item">
+            <h4>Behind-the-Scenes zeigen</h4>
+            <p>K&uuml;che, Team, Cocktails, Events. Pers&ouml;nlichkeit schafft Bindung. Beispiel Redo XXL: Pers&ouml;nlichkeit holt Leute in den Laden.</p>
+          </div>
+          <div class="fix-item">
+            <h4>Winterpause als Content-Chance</h4>
+            <p>3 Monate Schlie&szlig;ung = Vorproduktion, Throwbacks, Countdown zur Wiederer&ouml;ffnung. Community warm halten.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Naechste Schritte -->
+      <div class="fix-category fade-up">
+        <div class="fix-category-title">N&auml;chste Schritte</div>
+        <div class="fix-items">
+          <div class="fix-item">
+            <h4>Angebot an die Gesch&auml;ftsf&uuml;hrung weiterleiten</h4>
+            <p>Diese Zusammenfassung dient als Grundlage f&uuml;r die Entscheidung der Gesch&auml;ftsf&uuml;hrung.</p>
+          </div>
+          <div class="fix-item">
+            <h4>Content-Drehtag vor Ort vereinbaren</h4>
+            <p>Ideal w&auml;hrend des laufenden Betriebs f&uuml;r authentischen Behind-the-Scenes Content.</p>
+          </div>
+          <div class="fix-item">
+            <h4>TikTok-Account anlegen und Redaktionsplan erstellen</h4>
+            <p>Erste 4 Wochen Content vorplanen mit Fokus auf Reels, Location-Content und Food ASMR.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-section fade-up">
+        <h2>Bereit? Lass uns den Freischwimmer digital sichtbar machen.</h2>
+        <p>&Uuml;ber 20 Jahre Berliner Institution. Direkt an der Spree. Es wird Zeit, dass ganz Berlin davon erf&auml;hrt.</p>
+        <a href="https://saple.de/booking" target="_blank" class="cta-btn">Jetzt Termin buchen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <img src="public/saple-logo-white.svg" alt="Saple" class="logo-light">
+        <img src="public/saple-logo-black.svg" alt="Saple" class="logo-dark">
+      </div>
+      <p class="footer-note">Erstellt von Saple &mdash; Marketing Agentur Berlin // Vertraulich</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    // Check saved preference or default to light
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      html.setAttribute('data-theme', saved);
+    }
+
+    toggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Mobile hamburger
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+
+    // Close mobile menu on click outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target)) {
+        nav.classList.remove('open');
+      }
+    });
+
+    // Scroll fade-up animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Score bar animations on scroll
+    const scoreObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const fill = entry.target.querySelector('.score-fill');
+          if (fill && fill.dataset.width) {
+            fill.style.width = fill.dataset.width;
+          }
+        }
+      });
+    }, {
+      threshold: 0.3
+    });
+
+    document.querySelectorAll('.score-row').forEach(row => scoreObserver.observe(row));
+  </script>
+
 </body>
 </html>
