@@ -11,7 +11,19 @@
     /* =========================================
        THEME VARIABLES
        ========================================= */
-    [data-theme="light"] {
+    :root {
+      --primary: #8614FF;
+      --primary-light: #AD5FFF;
+      --primary-dark: #660FC2;
+      --mint: #2EE59D;
+      --dark: #0B0B0F;
+      --red: #FF3B30;
+      --amber: #FFB020;
+      --green: #2EE59D;
+      --blue: #2D7DFF;
+    }
+
+    :root, [data-theme="light"] {
       --bg: #FFFFFF;
       --surface: #F5F5F7;
       --surface-light: #EBEBEF;
@@ -26,7 +38,7 @@
       --footer-border: rgba(0,0,0,0.06);
     }
 
-    :root, [data-theme="dark"] {
+    [data-theme="dark"] {
       --bg: #0B0B0F;
       --surface: #12121A;
       --surface-light: #1D1D2B;
@@ -39,15 +51,6 @@
       --nav-bg: rgba(11,11,15,0.85);
       --nav-border: rgba(255,255,255,0.15);
       --footer-border: rgba(255,255,255,0.06);
-      --primary: #8614FF;
-      --primary-light: #AD5FFF;
-      --primary-dark: #660FC2;
-      --mint: #2EE59D;
-      --dark: #0B0B0F;
-      --red: #FF3B30;
-      --amber: #FFB020;
-      --green: #2EE59D;
-      --blue: #2D7DFF;
     }
 
     /* =========================================
@@ -93,7 +96,7 @@
       background: var(--nav-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--nav-border);
+      border: 2px solid var(--nav-border);
       border-radius: 100px;
       padding: 10px 20px;
       display: flex;
@@ -112,25 +115,33 @@
       height: 22px;
     }
 
-    .nav-logo .logo-dark { display: none; }
-    .nav-logo .logo-light { display: block; }
+    /* Light mode (default): show black logo, hide white */
+    .nav-logo .logo-light { display: none; }
+    .nav-logo .logo-dark { display: block; }
 
-    [data-theme="light"] .nav-logo .logo-dark { display: block; }
-    [data-theme="light"] .nav-logo .logo-light { display: none; }
+    /* Dark mode: show white logo, hide black */
+    [data-theme="dark"] .nav-logo .logo-light { display: block; }
+    [data-theme="dark"] .nav-logo .logo-dark { display: none; }
 
     .nav-cta {
-      background: var(--primary);
-      color: #fff;
+      background: var(--mint);
+      color: var(--dark);
+      border: 2px solid var(--dark);
       padding: 8px 18px;
       border-radius: 100px;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 800;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
       white-space: nowrap;
-      transition: background 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 0 rgba(11,11,15,0.15);
     }
 
     .nav-cta:hover {
-      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 rgba(11,11,15,0.15);
     }
 
     .theme-toggle {
@@ -152,11 +163,13 @@
       background: var(--surface);
     }
 
+    /* Light mode (default): show moon (click to go dark) */
     .theme-toggle .icon-sun { display: none; }
-    .theme-toggle .icon-moon { display: block; }
+    .theme-toggle .icon-moon { display: flex; }
 
-    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
-    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+    /* Dark mode: show sun (click to go light) */
+    [data-theme="dark"] .theme-toggle .icon-sun { display: flex; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
     .hamburger {
       display: none;
@@ -527,13 +540,10 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 32px;
       font-weight: 700;
-      color: var(--surface-light);
+      font-style: italic;
+      color: var(--border);
       flex-shrink: 0;
       line-height: 1;
-    }
-
-    [data-theme="light"] .problem-num {
-      color: var(--surface-light);
     }
 
     .problem-content {
@@ -720,11 +730,13 @@
       margin-bottom: 12px;
     }
 
-    .footer-logo .logo-dark { display: none; }
-    .footer-logo .logo-light { display: block; margin: 0 auto; }
+    /* Light mode (default): show black logo */
+    .footer-logo .logo-light { display: none; }
+    .footer-logo .logo-dark { display: block; margin: 0 auto; }
 
-    [data-theme="light"] .footer-logo .logo-dark { display: block; margin: 0 auto; }
-    [data-theme="light"] .footer-logo .logo-light { display: none; }
+    /* Dark mode: show white logo */
+    [data-theme="dark"] .footer-logo .logo-light { display: block; margin: 0 auto; }
+    [data-theme="dark"] .footer-logo .logo-dark { display: none; }
 
     .footer-logo img {
       height: 24px;
@@ -778,8 +790,8 @@
     </div>
     <a href="https://saple.de" class="nav-cta" target="_blank">Kostenloses Erstgespr&auml;ch</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">
-      <span class="icon-sun">&#9728;&#65039;</span>
-      <span class="icon-moon">&#9789;&#65039;</span>
+      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M17.72 17.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M17.72 6.28l1.06-1.06M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg>
+      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
     </button>
     <button class="hamburger" id="hamburger" aria-label="Men&uuml;">
       &#9776;
